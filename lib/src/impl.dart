@@ -15,6 +15,7 @@ Future<void> expectBuildCleanImpl(
   List<String> command = defaultCommand,
   String? packageRelativeDirectory,
   List<String>? gitDiffPathArguments,
+  bool cleanWorkspace = false,
 }) async {
   if (command.isEmpty) {
     throw ArgumentError.value(command, 'customCommand', 'Cannot be empty');
@@ -60,6 +61,10 @@ Future<void> expectBuildCleanImpl(
     ),
     isEmpty,
   );
+
+  if (cleanWorkspace) {
+    await _cleanWorkSpace(workingDir);
+  }
 }
 
 void expectResultOutputSucceeds(String result) {
@@ -79,6 +84,18 @@ Future<String> _changedGeneratedFiles(
         'diff',
         '--relative',
         if (gitDiffPathArguments != null) ...['--', ...gitDiffPathArguments]
+      ],
+      workingDir,
+    );
+
+Future<String> _cleanWorkSpace(
+  String workingDir,
+) =>
+    _runProc(
+      'git',
+      [
+        'reset',
+        '--hard',
       ],
       workingDir,
     );
