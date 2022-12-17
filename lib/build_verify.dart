@@ -30,12 +30,14 @@ Future<void> expectBuildClean({
   String? packageRelativeDirectory,
   List<String> customCommand = defaultCommand,
   List<String>? gitDiffPathArguments,
-  bool cleanWorkspace = false,
 }) =>
     expectBuildCleanImpl(
       Directory.current.resolveSymbolicLinksSync(),
       command: customCommand,
       packageRelativeDirectory: packageRelativeDirectory,
       gitDiffPathArguments: gitDiffPathArguments,
-      cleanWorkspace: cleanWorkspace,
+    );
+
+Future<void> cleanWorkSpace() => cleanWorkSpaceImpl(
+      Directory.current.resolveSymbolicLinksSync(),
     );
