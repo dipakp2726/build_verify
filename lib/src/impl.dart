@@ -62,9 +62,11 @@ Future<void> expectBuildCleanImpl(
     isEmpty,
   );
 
-  if (cleanWorkspace) {
-    await _cleanWorkSpace(workingDir);
-  }
+  tearDown(() async {
+    if (cleanWorkspace) {
+      await _cleanWorkSpace(workingDir);
+    }
+  });
 }
 
 void expectResultOutputSucceeds(String result) {
